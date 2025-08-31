@@ -3,14 +3,13 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import { Container } from "@/components/container";
 import { Header } from "@/components/header";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Dev Control - Your management system.",
-  description: "Manage your customers and services easily",
+  title: "Dev Controle - Seu sistema de gerenciamento.",
+  description: "Gerencie seus clientes e atendimentos de forma fácil.",
 };
 
 export default function RootLayout({
@@ -22,7 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} antialiased`}>
         <Header />
-        <Container>{children}</Container>
+        {children}
       </body>
     </html>
   );
