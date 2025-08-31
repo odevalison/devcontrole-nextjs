@@ -5,7 +5,7 @@ import { Container } from "@/components/container";
 export default function HomePage() {
   return (
     <Container>
-      <main className="flex min-h-[calc(100dvh-80px)] flex-col items-center justify-center">
+      <main className="flex min-h-[calc(100dvh-120px)] flex-col items-center justify-center">
         <h2 className="text-xl/[150%] font-medium md:text-2xl/[150%]">
           Gerencie sua empresa
         </h2>
