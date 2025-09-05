@@ -6,6 +6,7 @@ import { Poppins } from "next/font/google";
 import { Header } from "@/components/header";
 import { ModalProvider } from "@/context/modal";
 import { AuthProvider } from "@/providers/auth";
+import ReactQueryProvider from "@/providers/react-query";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -25,12 +26,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.className} antialiased`}>
-        <ModalProvider>
-          <AuthProvider>
-            <Header />
-            {children}
-          </AuthProvider>
-        </ModalProvider>
+        <ReactQueryProvider>
+          <ModalProvider>
+            <AuthProvider>
+              <Header />
+              {children}
+            </AuthProvider>
+          </ModalProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );

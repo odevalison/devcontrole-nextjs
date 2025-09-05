@@ -18,4 +18,4 @@ export const newCustomerFormSchema = z.object({
   address: z.string().optional(),
 });
 
-export type NewCustomerFormSchemaData = z.infer<typeof newCustomerFormSchema>;
+export type NewCustomerFormData = z.infer<typeof newCustomerFormSchema>;
