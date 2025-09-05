@@ -1,0 +1,17 @@
+.new-customer-modal-enter {
+  opacity: 0;
+}
+
+.new-customer-modal-enter-active {
+  opacity: 1;
+  transition: opacity 500ms;
+}
+
+.new-customer-modal-exit {
+  opacity: 1;
+}
+
+.new-customer-modal-exit-active {
+  opacity: 0;
+  transition: opacity 500ms;
+}
