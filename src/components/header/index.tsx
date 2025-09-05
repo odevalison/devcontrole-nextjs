@@ -1,6 +1,11 @@
 "use client";
 
-import { Loader2, Lock, LogOut, UserCircle2 } from "lucide-react";
+import {
+  Loader2Icon,
+  LogInIcon,
+  LogOutIcon,
+  UserCircle2Icon,
+} from "lucide-react";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
@@ -39,24 +44,24 @@ export function Header() {
         </Link>
 
         {status === "loading" && (
-          <button>
-            <Loader2 className="size-7 animate-spin text-zinc-500" />
-          </button>
+          <>
+            <Loader2Icon className="size-7 animate-spin text-zinc-500" />
+          </>
         )}
 
         {status === "unauthenticated" && (
           <button onClick={handleLogInUser}>
-            <Lock className="size-7 text-zinc-500" />
+            <LogInIcon className="size-7 text-zinc-500" />
           </button>
         )}
 
         {status === "authenticated" && (
           <div className="flex items-baseline gap-3">
             <Link href="/dashboard" className="text-zinc-500">
-              <UserCircle2 className="size-7" />
+              <UserCircle2Icon className="size-7" />
             </Link>
             <button className="text-zinc-500" onClick={handleLogOutUser}>
-              <LogOut className="size-7" />
+              <LogOutIcon className="size-7" />
             </button>
           </div>
         )}
