@@ -1,20 +1,21 @@
 import { Button } from "@/app/dashboard/components/button";
+import { Customer } from "@/utils/customer.type";
 
-export function CustomerCard() {
+export function CustomerCard({ customer }: { customer: Customer }) {
   return (
     <>
       <article className="space-y-3 rounded-lg border border-zinc-200 bg-zinc-50 p-4 shadow-md transition *:border-zinc-200 hover:scale-105">
         <div className="flex items-center justify-between text-sm">
-          <strong>Nome:</strong>
-          <p>Mercado Livre</p>
+          <strong className="truncate text-ellipsis">Nome:</strong>
+          <p className="truncate text-ellipsis">{customer.name}</p>
         </div>
         <div className="flex items-center justify-between text-sm">
-          <strong>E-mail:</strong>
-          <p>mercado@livre.com</p>
+          <strong className="truncate text-ellipsis">E-mail:</strong>
+          <p className="truncate text-ellipsis">{customer.email}</p>
         </div>
         <div className="flex items-center justify-between text-sm">
-          <strong>Número:</strong>
-          <p>(15) 99888-8678</p>
+          <strong className="truncate text-ellipsis">Número:</strong>
+          <p>{customer.phone}</p>
         </div>
         <Button variant="danger" className="w-full">
           Deletar

@@ -38,25 +38,25 @@ export function NewCustomerForm() {
             error={formState.errors.name?.message}
             {...register("name")}
             label="Nome completo"
-            placeholder="Digite o nome do usuário"
+            placeholder="Digite o nome do cliente"
           />
           <Input
             error={formState.errors.email?.message}
             {...register("email")}
             label="E-mail"
-            placeholder="Digite o e-mail do usuário"
+            placeholder="Digite o e-mail do cliente"
           />
           <Input
             error={formState.errors.phone?.message}
             {...register("phone")}
             label="Telefone"
-            placeholder="Digite o telefone do usuário"
+            placeholder="Digite o telefone do cliente"
           />
           <Input
             error={formState.errors.address?.message}
             {...register("address")}
             label="Endereço (opcional)"
-            placeholder="Digite o endereço do usuário"
+            placeholder="Digite o endereço do cliente"
           />
         </div>
 

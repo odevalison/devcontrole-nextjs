@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 
@@ -22,6 +23,8 @@ export async function POST(request: Request) {
         userId: session.user.id,
       },
     });
+
+    revalidatePath("/src/app/dashboard/customers");
 
     return NextResponse.json(
       { message: "Customer successfully created" },
