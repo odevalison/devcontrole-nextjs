@@ -1,9 +1,9 @@
-import { HTMLAttributes } from "react";
+import { ButtonHTMLAttributes } from "react";
 
 type ButtonVariants = "primary" | "secondary" | "danger";
 type ButtonSizes = "sm" | "lg" | "icon";
 
-interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   variant?: ButtonVariants;
   size?: ButtonSizes;
@@ -14,6 +14,7 @@ export function Button({
   children,
   size = "sm",
   variant = "primary",
+  type = "button",
   className,
   ...props
 }: ButtonProps) {
@@ -42,6 +43,7 @@ export function Button({
   return (
     <button
       {...props}
+      type={type}
       className={`rounded-md text-center font-semibold text-white drop-shadow transition ${getSizeClasses()} ${getVariantClasses()} ${className}`}
     >
       {children}
