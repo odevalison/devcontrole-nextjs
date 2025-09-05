@@ -1,19 +1,13 @@
-"use client";
-
-import { useModal } from "@/context/modal";
-
-import { Button } from "../components/button";
 import { CustomerCard } from "./components/customer-card";
 import { NewCustomerModal } from "./components/new-customer-modal";
+import { OpenNewCustomerModalButton } from "./components/open-new-customer-modal-button";
 
 export default function CustomersPage() {
-  const { openModal } = useModal();
-
   return (
     <main className="space-y-6.5">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Meus clientes</h1>
-        <Button onClick={openModal}>Novo cliente</Button>
+        <h1 className="text-2xl font-bold">Clientes</h1>
+        <OpenNewCustomerModalButton />
         <NewCustomerModal />
       </div>
 
