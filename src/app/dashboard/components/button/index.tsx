@@ -7,12 +7,14 @@ interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   variant?: ButtonVariants;
   size?: ButtonSizes;
+  className?: string;
 }
 
 export function Button({
   children,
   size = "sm",
   variant = "primary",
+  className,
   ...props
 }: ButtonProps) {
   const getSizeClasses = () => {
@@ -40,7 +42,7 @@ export function Button({
   return (
     <button
       {...props}
-      className={`rounded-md font-semibold text-white drop-shadow transition ${getSizeClasses()} ${getVariantClasses()}`}
+      className={`rounded-md text-center font-semibold text-white drop-shadow transition ${getSizeClasses()} ${getVariantClasses()} ${className}`}
     >
       {children}
     </button>
