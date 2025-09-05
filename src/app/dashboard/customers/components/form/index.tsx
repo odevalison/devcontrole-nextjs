@@ -4,6 +4,7 @@ import { Button } from "@/app/dashboard/components/button";
 import { Input } from "@/components/input";
 import { useModal } from "@/context/modal";
 import { useCustomerForm } from "@/hooks/use-customer-form";
+import { api } from "@/lib/api";
 
 import { NewCustomerFormSchemaData } from "./schema";
 
@@ -11,9 +12,19 @@ export function NewCustomerForm() {
   const { closeModal } = useModal();
   const { register, handleSubmit, formState } = useCustomerForm();
 
-  const handleRegisterCustomer = (data: NewCustomerFormSchemaData) => {
-    // eslint-disable-next-line no-console
-    console.log(data);
+  const handleRegisterCustomer = async (data: NewCustomerFormSchemaData) => {
+    try {
+      const response = await api.post("/api/customer", { ...data });
+      if (response.status !== 200) {
+        throw new Error("Error on add customer");
+      }
+      closeModal();
+    } catch (error) {
+      if (error instanceof Error) {
+        throw Error(error.message);
+      }
+      throw new Error("Something wrong happened on add customer");
+    }
   };
 
   return (
@@ -24,8 +35,8 @@ export function NewCustomerForm() {
       >
         <div className="space-y-3">
           <Input
-            error={formState.errors.fullName?.message}
-            {...register("fullName")}
+            error={formState.errors.name?.message}
+            {...register("name")}
             label="Nome completo"
             placeholder="Digite o nome do usuário"
           />
@@ -53,7 +64,9 @@ export function NewCustomerForm() {
           <Button onClick={closeModal} variant="secondary">
             Cancelar
           </Button>
-          <Button type="submit">Cadastrar</Button>
+          <Button disabled={formState.isSubmitting} type="submit">
+            {formState.isSubmitting ? "Cadastrando..." : "Cadastrar"}
+          </Button>
         </div>
       </form>
     </>

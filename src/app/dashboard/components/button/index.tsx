@@ -44,7 +44,7 @@ export function Button({
     <button
       {...props}
       type={type}
-      className={`rounded-md text-center font-semibold text-white drop-shadow transition ${getSizeClasses()} ${getVariantClasses()} ${className}`}
+      className={`rounded-md text-center font-semibold text-white drop-shadow transition disabled:opacity-50 ${getSizeClasses()} ${getVariantClasses()} ${className}`}
     >
       {children}
     </button>

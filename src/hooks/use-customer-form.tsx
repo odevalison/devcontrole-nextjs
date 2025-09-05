@@ -12,6 +12,6 @@ export function useCustomerForm() {
   return useForm<NewCustomerFormSchemaData>({
     resolver: zodResolver(newCustomerFormSchema),
     mode: "onSubmit",
-    defaultValues: { email: "", fullName: "", phone: "", address: "" },
+    defaultValues: { email: "", name: "", phone: "", address: "" },
   });
 }

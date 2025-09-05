@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const newCustomerFormSchema = z.object({
-  fullName: z.string().nonempty("O campo nome é obrigatório"),
+  name: z.string().nonempty("O campo nome é obrigatório"),
   phone: z
     .string()
     .nonempty("O campo telefone é obrigatório")
