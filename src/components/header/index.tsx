@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  Loader2Icon,
+  LoaderIcon,
   LogInIcon,
   LogOutIcon,
   UserCircle2Icon,
@@ -45,7 +45,7 @@ export function Header() {
 
         {status === "loading" && (
           <>
-            <Loader2Icon className="size-7 animate-spin text-zinc-500" />
+            <LoaderIcon className="size-7 animate-spin text-zinc-500" />
           </>
         )}
 
