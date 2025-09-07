@@ -6,10 +6,10 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import prismaClient from "@/lib/prisma";
 
-import { CreateUserCustomerData, createUserCustomerSchema } from "./schema";
+import { CreateCustomerData, createCustomerSchema } from "./schema";
 
-export async function createUserCustomer(data: CreateUserCustomerData) {
-  createUserCustomerSchema.parse(data);
+export async function createCustomer(data: CreateCustomerData) {
+  createCustomerSchema.parse(data);
   const session = await getServerSession(authOptions);
   if (!session || !session.user) {
     throw new Error("Unauthorized");
