@@ -6,7 +6,7 @@ import { Poppins } from "next/font/google";
 import { Header } from "@/components/header";
 import { ModalProvider } from "@/context/modal";
 import { AuthProvider } from "@/providers/auth";
-import ReactQueryProvider from "@/providers/react-query";
+import { ReactQueryProvider } from "@/providers/react-query";
 
 const poppins = Poppins({
   subsets: ["latin"],

@@ -1,27 +1,31 @@
 "use client";
 
+import { redirect, useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+
 import { Button } from "@/app/dashboard/components/button";
 import { Input } from "@/components/input";
 import { useModal } from "@/context/modal";
-import { useCreateCustomer } from "@/hooks/mutations/use-create-customer";
 import { useCustomerForm } from "@/hooks/use-customer-form";
+import { api } from "@/lib/api";
 
 import { NewCustomerFormData } from "./schema";
 
 export function NewCustomerForm() {
+  const { data: session } = useSession();
+  if (!session || !session?.user) {
+    redirect("/");
+  }
+  const { refresh } = useRouter();
   const { closeModal } = useModal();
   const { register, handleSubmit, formState } = useCustomerForm();
-  const { mutateAsync, isPending } = useCreateCustomer();
-
-  const handleRegister = async (data: NewCustomerFormData) => {
-    try {
-      await mutateAsync(data);
-      closeModal();
-    } catch (err) {
-      if (err instanceof Error) {
-        throw Error(err.message);
-      }
-    }
+  const handleRegister = async (customerData: NewCustomerFormData) => {
+    await api.post("/api/customer", {
+      ...customerData,
+      userId: session.user.id,
+    });
+    refresh();
+    closeModal();
   };
 
   return (
@@ -57,8 +61,8 @@ export function NewCustomerForm() {
         <Button onClick={closeModal} variant="secondary">
           Cancelar
         </Button>
-        <Button disabled={isPending} type="submit">
-          {isPending ? "Cadastrando..." : "Cadastrar"}
+        <Button disabled={formState.isSubmitting} type="submit">
+          {formState.isSubmitting ? "Cadastrando..." : "Cadastrar"}
         </Button>
       </div>
     </form>

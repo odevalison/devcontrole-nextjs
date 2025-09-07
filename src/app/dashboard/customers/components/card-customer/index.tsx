@@ -1,7 +1,7 @@
 import { Customer } from "@/utils/customer.type";
 
 import { CardCustomerData } from "./components/card-customer-data";
-import { CardCustomerDeleteButton } from "./components/card-customer-delete-button";
+import { DeleteCustomerButton } from "./components/delete-customer-button";
 
 export function CardCustomer({ customer }: { customer: Customer }) {
   return (
@@ -11,7 +11,7 @@ export function CardCustomer({ customer }: { customer: Customer }) {
         email={customer.email}
         phone={customer.phone}
       />
-      <CardCustomerDeleteButton id={customer.id} />
+      <DeleteCustomerButton id={customer.id} />
     </article>
   );
 }

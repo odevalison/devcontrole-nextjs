@@ -1,23 +1,34 @@
-"use client";
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
 
-import { useCustomers } from "@/hooks/queries/user-customers";
+import { authOptions } from "@/lib/auth";
+import prismaClient from "@/lib/prisma";
 
 import { CardCustomer } from "../card-customer";
 
-export function CustomersGrid() {
-  const { data: customers } = useCustomers();
+export async function CustomersGrid() {
+  const session = await getServerSession(authOptions);
+  if (!session || !session.user) {
+    redirect("/");
+  }
+  const customers = await prismaClient.customer.findMany({
+    where: { userId: session.user.id },
+    orderBy: { created_at: "desc" },
+  });
 
   return (
-    <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-      {!!customers?.length ? (
-        customers.map((customer) => (
-          <CardCustomer key={customer.id} customer={customer} />
-        ))
+    <>
+      {customers?.length ? (
+        <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+          {customers?.map((customer) => (
+            <CardCustomer key={customer.id} customer={customer} />
+          ))}
+        </section>
       ) : (
         <p className="text-sm font-medium text-zinc-500">
-          Nenhum cliente cadastrado.
+          Você não possui nenhum cliente cadastrado.
         </p>
       )}
-    </section>
+    </>
   );
 }

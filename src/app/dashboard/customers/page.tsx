@@ -10,7 +10,6 @@ export default async function CustomersPage() {
         <OpenNewCustomerModalButton />
         <NewCustomerModal />
       </div>
-
       <CustomersGrid />
     </main>
   );
