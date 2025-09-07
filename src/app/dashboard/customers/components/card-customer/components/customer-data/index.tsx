@@ -1,14 +1,10 @@
-interface CardCustomerDataProps {
+interface CustomerDataProps {
   name: string;
   email: string;
   phone: string;
 }
 
-export function CardCustomerData({
-  name,
-  email,
-  phone,
-}: CardCustomerDataProps) {
+export function CustomerData({ name, email, phone }: CustomerDataProps) {
   return (
     <>
       <div className="flex items-center justify-between text-sm">
