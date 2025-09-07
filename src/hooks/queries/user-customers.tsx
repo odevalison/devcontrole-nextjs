@@ -2,11 +2,11 @@
 
 import { useQuery } from "@tanstack/react-query";
 
-import { getUserCustomers } from "@/app/actions/get-user-customers";
+import { getCustomers } from "@/app/actions/get-customers";
 
 export function useCustomers() {
   return useQuery({
     queryKey: ["get-user-customers"],
-    queryFn: getUserCustomers,
+    queryFn: getCustomers,
   });
 }

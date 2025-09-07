@@ -30,7 +30,6 @@ export function NewCustomerModal() {
           >
             <div className="flex w-md max-w-full flex-col items-center justify-center space-y-5 rounded-xl bg-white p-5 shadow">
               <h1 className="text-2xl font-bold">Novo cliente</h1>
-
               <NewCustomerForm />
             </div>
           </div>,

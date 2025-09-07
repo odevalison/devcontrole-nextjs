@@ -23,8 +23,6 @@ export default async function DashboardPage() {
 
         <tbody>
           <TicketItem />
-          <TicketItem />
-          <TicketItem />
         </tbody>
       </table>
     </main>
