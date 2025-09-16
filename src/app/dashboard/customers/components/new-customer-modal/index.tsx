@@ -7,12 +7,16 @@ import { createPortal } from "react-dom";
 import { CSSTransition } from "react-transition-group";
 
 import { useModal } from "@/context/modal";
+import { useIsClient } from "@/hooks/use-is-client";
 
 import { NewCustomerForm } from "../form";
 
 export function NewCustomerModal() {
   const { modalIsOpen } = useModal();
+  const isClient = useIsClient();
   const modalRef = useRef<HTMLDivElement>(null);
+
+  if (!isClient) return null;
 
   return (
     <CSSTransition
