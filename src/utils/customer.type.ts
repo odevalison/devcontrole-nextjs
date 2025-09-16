@@ -1,4 +1,4 @@
-export interface Customer {
+export type Customer = {
   id: string;
   name: string;
   phone: string;
@@ -7,4 +7,4 @@ export interface Customer {
   created_at: Date | null;
   updated_at: Date | null;
   userId: string | null;
-}
+};

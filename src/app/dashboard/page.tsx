@@ -1,9 +1,21 @@
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+
+import { authOptions } from "@/lib/auth";
+import prismaClient from "@/lib/prisma";
+import { Ticket } from "@/utils/ticket.type";
 
 import { Button } from "./components/button";
 import { TicketItem } from "./components/ticket-item";
 
-export default async function DashboardPage() {
+const DashboardPage = async () => {
+  const session = await getServerSession(authOptions);
+  const tickets = (await prismaClient.ticket.findMany({
+    where: { userId: session?.user.id as string },
+    orderBy: { created_at: "desc" },
+    include: { customer: true },
+  })) as Ticket[];
+
   return (
     <main className="space-y-6.5">
       <div className="flex items-center justify-between">
@@ -26,9 +38,19 @@ export default async function DashboardPage() {
         </thead>
 
         <tbody>
-          <TicketItem />
+          {tickets.map((ticket) => (
+            <TicketItem
+              key={ticket.id}
+              name={ticket.name}
+              date={ticket.created_at}
+              customer={ticket.customer}
+              status={ticket.status}
+            />
+          ))}
         </tbody>
       </table>
     </main>
   );
-}
+};
+
+export default DashboardPage;
