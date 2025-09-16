@@ -6,11 +6,11 @@ import { authOptions } from "@/lib/auth";
 
 import { HeaderDashboard } from "./components/header";
 
-export default async function DashboardLayout({
-  children,
-}: {
+type DashboardLayoutProps = {
   children: React.ReactNode;
-}) {
+};
+
+const DashboardLayout = async ({ children }: DashboardLayoutProps) => {
   const session = await getServerSession(authOptions);
   if (!session || !session?.user) {
     redirect("/");
@@ -22,4 +22,6 @@ export default async function DashboardLayout({
       {children}
     </Container>
   );
-}
+};
+
+export default DashboardLayout;
