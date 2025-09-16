@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 
 import { authOptions } from "@/lib/auth";
@@ -22,6 +23,16 @@ const NewTicket = async () => {
     if (!name || !description || !customerId) {
       return;
     }
+    await prismaClient.ticket.create({
+      data: {
+        name: name as string,
+        description: description as string,
+        customerId: customerId as string,
+        userId: session?.user.id as string,
+        status: "OPEN",
+      },
+    });
+    redirect("/dashboard");
   };
 
   return (
