@@ -43,7 +43,7 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: "Customer not found" }, { status: 400 });
   }
   try {
-    const customerToDelete = await prismaClient.customer.findUnique({
+    const customerToDelete = await prismaClient.customer.findFirst({
       where: { id: customerId },
       include: { tickets: true },
     });

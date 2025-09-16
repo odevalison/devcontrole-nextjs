@@ -1,6 +1,6 @@
 import { ButtonHTMLAttributes } from "react";
 
-type ButtonVariants = "primary" | "secondary" | "danger";
+type ButtonVariants = "primary" | "secondary" | "danger" | "success";
 type ButtonSizes = "sm" | "lg" | "md" | "icon";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -39,6 +39,8 @@ export function Button({
         return "bg-rose-500 not-disabled:hover:bg-rose-500/75";
       case "secondary":
         return "bg-zinc-500 not-disabled:hover:bg-zinc-500/75";
+      case "success":
+        return "bg-emerald-500 not-disabled:hover:bg-emerald-500/75";
     }
   };
 

@@ -1,0 +1,5 @@
+PATCH http://localhost:3000/api/ticket
+
+{
+  "id": "68c8e93b34cfcdbd4f3b8b03"
+}
