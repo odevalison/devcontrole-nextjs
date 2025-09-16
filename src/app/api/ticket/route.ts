@@ -24,7 +24,7 @@ export const PATCH = async (request: NextRequest) => {
   try {
     await prismaClient.ticket.update({
       where: { id: id as string },
-      data: { status: ticketToUpdate.status === "OPEN" ? "CLOSED" : "OPEN" },
+      data: { status: "CLOSED" },
     });
     return NextResponse.json(
       { message: "Ticket successfully updated!" },
