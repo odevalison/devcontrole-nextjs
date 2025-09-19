@@ -1,11 +1,19 @@
+import { redirect } from 'next/navigation'
+import { getServerSession } from 'next-auth'
 import { Suspense } from 'react'
+
+import { authOptions } from '@/lib/auth'
 
 import { CustomersList } from './components/customers-list'
 import { LoadingMessage } from './components/loading-message'
 import { NewCustomerModal } from './components/new-customer-modal'
 import { OpenModalButton } from './components/open-modal-button'
 
-const CustomersPage = () => {
+const CustomersPage = async () => {
+  const session = await getServerSession(authOptions)
+  if (!session || !session.user) {
+    redirect('/')
+  }
   return (
     <main className="space-y-6.5">
       <div className="flex items-center justify-between">
