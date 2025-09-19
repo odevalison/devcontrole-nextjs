@@ -1,0 +1,17 @@
+.ticket-modal-enter {
+  opacity: 0;
+}
+
+.ticket-modal-enter-active {
+  opacity: 1;
+  transition: opacity 500ms;
+}
+
+.ticket-modal-exit {
+  opacity: 1;
+}
+
+.ticket-modal-exit-active {
+  opacity: 0;
+  transition: opacity 500ms;
+}
