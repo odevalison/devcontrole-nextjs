@@ -1,62 +1,26 @@
-"use client";
+import { dateFormat } from '@/utils/date-format'
+import { Ticket } from '@/utils/ticket.type'
 
-import { CheckCircle, ExternalLinkIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Badge } from '../badge'
+import { CloseTicketButton } from '../close-ticket-button'
+import { OpenTicketModalButton } from '../open-ticket-modal-button'
 
-import { api } from "@/lib/api";
-import { Ticket, TicketStatus } from "@/utils/ticket.type";
-
-import { Button } from "../button";
-import { TicketStatusBadge } from "../ticket-status-badge";
-
-interface TicketItemProps {
-  status: keyof typeof TicketStatus;
-  name: Ticket["name"];
-  id: Ticket["id"];
-  date: Ticket["created_at"];
-  customer: Ticket["customer"];
+type TicketItemProps = {
+  ticket: Ticket
 }
 
-export const TicketItem = ({ date, name, status, id }: TicketItemProps) => {
-  const { refresh } = useRouter();
-
-  const onChangeTicketStatus = async () => {
-    try {
-      const response = await api.patch("/api/ticket", { id });
-      if (response.status === 200) {
-        refresh();
-      }
-    } catch (err) {
-      if (err instanceof Error) {
-        throw Error(err.message);
-      }
-      throw new Error(err as string);
-    }
-  };
-
+export const TicketItem = ({ ticket }: TicketItemProps) => {
   return (
-    <>
-      <tr className="w-full border-b border-zinc-200 bg-zinc-50 text-sm transition *:py-4 *:select-none last:border-b-0 hover:bg-zinc-100">
-        <td className="pl-4">{name}</td>
-
-        <td className="hidden sm:table-cell">
-          {date?.toLocaleDateString("pt-BR")}
-        </td>
-
-        <td>
-          <TicketStatusBadge ticketStatus={TicketStatus[status]} />
-        </td>
-
-        <td className="float-right space-x-1 pr-4">
-          <Button size="icon" variant="success" onClick={onChangeTicketStatus}>
-            <CheckCircle />
-          </Button>
-
-          <Button size="icon" variant="secondary">
-            <ExternalLinkIcon />
-          </Button>
-        </td>
-      </tr>
-    </>
-  );
-};
+    <tr className="w-full border-b border-zinc-200 bg-zinc-50 text-sm transition *:py-4 last:border-b-0 hover:bg-zinc-100">
+      <td className="pl-3 text-sm">{ticket?.customer?.name}</td>
+      <td className="text-sm">{dateFormat(ticket.created_at as Date)}</td>
+      <td>
+        <Badge status={ticket.status} />
+      </td>
+      <td className="float-right space-x-1 pr-3">
+        <CloseTicketButton ticketId={ticket.id} />
+        <OpenTicketModalButton ticket={ticket} />
+      </td>
+    </tr>
+  )
+}
