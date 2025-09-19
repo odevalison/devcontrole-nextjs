@@ -1,24 +1,24 @@
-interface CustomerDataProps {
-  name: string;
-  email: string;
-  phone: string;
+import { Customer } from '@/utils/customer.type'
+
+type CustomerDataProps = {
+  customer: Customer
 }
 
-export function CustomerData({ name, email, phone }: CustomerDataProps) {
+export const CustomerData = ({ customer }: CustomerDataProps) => {
   return (
     <>
       <div className="flex items-center justify-between text-sm">
         <strong className="truncate text-ellipsis">Nome:</strong>
-        <p className="truncate text-ellipsis">{name}</p>
+        <p className="truncate text-ellipsis">{customer.name}</p>
       </div>
       <div className="flex items-center justify-between text-sm">
         <strong className="truncate text-ellipsis">E-mail:</strong>
-        <p className="truncate text-ellipsis">{email}</p>
+        <p className="truncate text-ellipsis">{customer.email}</p>
       </div>
       <div className="flex items-center justify-between text-sm">
         <strong className="truncate text-ellipsis">Número:</strong>
-        <p>{phone}</p>
+        <p>{customer.phone}</p>
       </div>
     </>
-  );
+  )
 }
