@@ -1,111 +1,24 @@
-import Link from "next/link";
-import { redirect } from "next/navigation";
-import { getServerSession } from "next-auth";
+import { ArrowLeft } from 'lucide-react'
+import Link from 'next/link'
 
-import { authOptions } from "@/lib/auth";
-import prismaClient from "@/lib/prisma";
-import { Customer } from "@/utils/customer.type";
-
-import { Button } from "../components/button";
+import { NewTicketForm } from './components/new-ticket-form'
 
 const NewTicket = async () => {
-  const session = await getServerSession(authOptions);
-  const customers: Customer[] = await prismaClient.customer.findMany({
-    where: { userId: session?.user.id as string },
-  });
-  const hasAvailableCustomers = !!customers.length;
-
-  const onTicketRegister = async (formData: FormData) => {
-    "use server";
-    const name = formData.get("name");
-    const description = formData.get("description");
-    const customerId = formData.get("customer");
-    if (!name || !description || !customerId) {
-      return;
-    }
-    await prismaClient.ticket.create({
-      data: {
-        name: name as string,
-        description: description as string,
-        customerId: customerId as string,
-        userId: session?.user.id as string,
-        status: "OPEN",
-      },
-    });
-    redirect("/dashboard");
-  };
-
   return (
     <main>
       <div className="flex items-center gap-3">
         <Link
           href="/dashboard"
-          className="rounded-md bg-gray-900 px-4 py-1 text-sm text-white"
+          title="Voltar"
+          className="rounded-full bg-gray-900 p-1.5 drop-shadow transition hover:opacity-95"
         >
-          Voltar
+          <ArrowLeft className="size-5 text-white" />
         </Link>
-
-        <h1 className="text-2xl font-bold">Novo chamado</h1>
+        <h1 className="text-2xl font-bold">Abrir novo chamado</h1>
       </div>
-
-      <form className="mt-5 flex flex-col gap-4" action={onTicketRegister}>
-        <div className="flex flex-col gap-1">
-          <label className="font-semibold">Nome do chamado</label>
-          <input
-            type="text"
-            name="name"
-            placeholder="Insira o nome do chamado"
-            disabled={!hasAvailableCustomers}
-            className="w-full rounded-md border border-zinc-200 px-3 py-2 text-sm outline-blue-500 placeholder:text-sm disabled:cursor-not-allowed disabled:opacity-75"
-            required
-          />
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <label className="font-semibold">Descreva o problema</label>
-          <textarea
-            rows={5}
-            name="description"
-            disabled={!hasAvailableCustomers}
-            placeholder="Insira uma descrição do problema"
-            className="w-full resize-none rounded-md border border-zinc-200 px-3 py-2 text-sm outline-blue-500 placeholder:text-sm disabled:cursor-not-allowed disabled:opacity-75"
-          ></textarea>
-        </div>
-
-        {hasAvailableCustomers && (
-          <div className="flex flex-col gap-1">
-            <label className="font-semibold">Selecione o cliente</label>
-            <select
-              name="customer"
-              className="w-full rounded-md border border-zinc-200 px-3 py-2 text-sm outline-blue-500"
-            >
-              {customers.map((customer) => (
-                <option key={customer.id} value={customer.id}>
-                  {customer.name}
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
-
-        {!hasAvailableCustomers && (
-          <p className="text-sm font-semibold text-zinc-600">
-            Você não possui nenhum cliente.{" "}
-            <Link
-              href="/dashboard/customers"
-              className="text-blue-800 hover:underline"
-            >
-              Cadastre um novo cliente
-            </Link>
-          </p>
-        )}
-
-        <Button type="submit" disabled={!hasAvailableCustomers} size="md">
-          Cadastrar
-        </Button>
-      </form>
+      <NewTicketForm />
     </main>
-  );
-};
+  )
+}
 
-export default NewTicket;
+export default NewTicket
