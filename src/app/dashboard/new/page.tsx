@@ -1,9 +1,17 @@
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
+import { getServerSession } from 'next-auth'
+
+import { authOptions } from '@/lib/auth'
 
 import { NewTicketForm } from './components/new-ticket-form'
 
 const NewTicket = async () => {
+  const session = await getServerSession(authOptions)
+  if (!session || !session.user) {
+    redirect('/')
+  }
   return (
     <main>
       <div className="flex items-center gap-3">
