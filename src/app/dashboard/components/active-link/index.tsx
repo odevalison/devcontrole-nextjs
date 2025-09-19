@@ -9,7 +9,7 @@ type ActiveLinkProps = {
 
 export const ActiveLink = ({ children, href, ...props }: ActiveLinkProps) => {
   const pathname = usePathname()
-  const isCurrentTab = pathname === href
+  const isCurrentTab = pathname === href || pathname === props.as
 
   return (
     <Link
