@@ -1,18 +1,18 @@
-import { InputHTMLAttributes, useId } from "react";
+import { InputHTMLAttributes, useId } from 'react'
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  label: string;
-  error?: string;
-}
+type InputProps = {
+  label: string
+  error?: string
+} & InputHTMLAttributes<HTMLInputElement>
 
-export function Input({
+export const Input = ({
   label,
   error,
   placeholder,
-  type = "text",
+  type = 'text',
   ...props
-}: InputProps) {
-  const inputId = useId();
+}: InputProps) => {
+  const inputId = useId()
 
   return (
     <div className="flex flex-col space-y-1">
@@ -25,10 +25,10 @@ export function Input({
         type={type}
         id={inputId}
         placeholder={placeholder}
-        className="rounded-md border border-zinc-200 px-3 py-1.5 text-sm outline-blue-500 placeholder:text-sm"
+        className="w-full rounded-md border border-zinc-200 px-3 py-1.5 text-sm outline-blue-500 placeholder:text-sm disabled:opacity-75"
       />
 
       {error && <p className="text-xs font-medium text-rose-500">{error}</p>}
     </div>
-  );
+  )
 }
