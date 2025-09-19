@@ -1,17 +1,32 @@
-"use client";
+'use client'
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import z from 'zod'
 
-import {
-  NewCustomerFormData,
-  newCustomerFormSchema,
-} from "@/app/dashboard/customers/components/form/schema";
+import { phoneRefine } from '@/utils/phone-refine'
 
-export function useCustomerForm() {
+const newCustomerFormSchema = z.object({
+  name: z.string().nonempty('O campo nome é obrigatório'),
+  phone: z
+    .string()
+    .nonempty('O campo telefone é obrigatório')
+    .refine((fieldValue) => phoneRefine(fieldValue), {
+      error: 'Informe um telefone válido',
+    })
+    .transform((field) => field.replace(/[^\w]/g, '')),
+  email: z
+    .email('Informe um e-mail válido')
+    .nonempty('O campo e-mail é obrigatório'),
+  address: z.string().optional(),
+})
+
+export type NewCustomerFormData = z.infer<typeof newCustomerFormSchema>
+
+export const useCustomerForm = () => {
   return useForm<NewCustomerFormData>({
     resolver: zodResolver(newCustomerFormSchema),
-    mode: "onSubmit",
-    defaultValues: { email: "", name: "", phone: "", address: "" },
-  });
+    mode: 'onSubmit',
+    defaultValues: { email: '', name: '', phone: '', address: '' },
+  })
 }
