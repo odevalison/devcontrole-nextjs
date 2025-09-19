@@ -9,7 +9,7 @@ import { useAddNewCustomer } from '@/hooks/mutations/use-add-new-customer'
 import { useCustomerForm } from '@/hooks/use-customer-form'
 import { useModal } from '@/providers/modal'
 
-import { NewCustomerFormData } from '../../../../../hooks/use-customer-form'
+import { NewCustomerFormData } from '../../../../../../hooks/use-customer-form'
 
 export const NewCustomerForm = () => {
   const { closeModal } = useModal()
