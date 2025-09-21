@@ -9,12 +9,12 @@ import { Button } from '@/components/button'
 import { Input } from '@/components/input'
 import { Select } from '@/components/select'
 import { Textarea } from '@/components/textarea'
-import { useOpenNewTicket } from '@/hooks/mutations/use-open-new-ticket'
-import { useUserCustomers } from '@/hooks/queries/use-user-customers'
+import { useAuthOpenTicket } from '@/hooks/mutations/use-auth-open-ticket'
+import { useGetUserCustomers } from '@/hooks/queries/use-get-user-customers'
 import {
-  OpenNewTicketFormData,
-  useOpenNewTicketForm,
-} from '@/hooks/use-open-new-ticket-form'
+  OpenTicketFormData,
+  useAuthOpenTicketForm,
+} from '@/hooks/use-auth-open-ticket-form'
 
 export const NewTicketForm = () => {
   const router = useRouter()
@@ -22,12 +22,12 @@ export const NewTicketForm = () => {
     handleSubmit,
     register,
     formState: { isSubmitting, errors },
-  } = useOpenNewTicketForm()
-  const { data: customers } = useUserCustomers()
-  const openNewTicketMutation = useOpenNewTicket()
-  const userHaveAvailableCustomers = !!customers?.length
+  } = useAuthOpenTicketForm()
+  const { data: customers } = useGetUserCustomers()
+  const openNewTicketMutation = useAuthOpenTicket()
+  const haveAvailableCustomers = !!customers?.length
 
-  const handleOpenNewTicket = async (data: OpenNewTicketFormData) => {
+  const handleOpenNewTicket = async (data: OpenTicketFormData) => {
     try {
       await openNewTicketMutation.mutateAsync(data)
       router.push('/dashboard')
@@ -47,7 +47,7 @@ export const NewTicketForm = () => {
         {...register('name')}
         error={errors.name?.message}
         label="Nome do chamado"
-        disabled={!userHaveAvailableCustomers || isSubmitting}
+        disabled={!haveAvailableCustomers || isSubmitting}
         placeholder="Digite o nome do chamado"
       />
       <Textarea
@@ -55,11 +55,11 @@ export const NewTicketForm = () => {
         error={errors.description?.message}
         rows={4}
         label="Descreva o problema"
-        disabled={!userHaveAvailableCustomers || isSubmitting}
+        disabled={!haveAvailableCustomers || isSubmitting}
         placeholder="Digite uma breve descrição"
       />
 
-      {userHaveAvailableCustomers && (
+      {haveAvailableCustomers && (
         <Select
           {...register('customerId')}
           disabled={isSubmitting}
@@ -74,7 +74,7 @@ export const NewTicketForm = () => {
         </Select>
       )}
 
-      {!userHaveAvailableCustomers && (
+      {!haveAvailableCustomers && (
         <p className="flex items-center gap-2 text-sm font-medium text-zinc-500">
           Nenhum cliente cadastrado.
           <Link
@@ -88,7 +88,7 @@ export const NewTicketForm = () => {
 
       <Button
         type="submit"
-        disabled={!userHaveAvailableCustomers || isSubmitting}
+        disabled={!haveAvailableCustomers || isSubmitting}
         className="flex items-center justify-center gap-1"
       >
         {isSubmitting && <Loader2 className="size-3.5 animate-spin" />}

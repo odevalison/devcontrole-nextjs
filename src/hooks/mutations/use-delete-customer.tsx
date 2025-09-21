@@ -4,11 +4,11 @@ import { useMutation } from '@tanstack/react-query'
 
 import { deleteUserCustomer } from '@/app/actions/delete-user-customer'
 
-export const useDeleteCustomer = (id: string) => {
+export const deleteCustomerKey = ['delete-customer'] as const
+
+export const useDeleteCustomer = () => {
   return useMutation({
-    mutationKey: ['delete-customer'],
-    mutationFn: () => {
-      return deleteUserCustomer({ id })
-    },
+    mutationKey: deleteCustomerKey,
+    mutationFn: deleteUserCustomer,
   })
 }

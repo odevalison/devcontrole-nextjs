@@ -4,9 +4,11 @@ import { useMutation } from '@tanstack/react-query'
 
 import { addNewCustomer } from '@/app/actions/add-new-customer'
 
+export const newCustomerKey = ['new-customer'] as const
+
 export const useAddNewCustomer = () => {
   return useMutation({
-    mutationKey: ['add-new-customer'],
+    mutationKey: newCustomerKey,
     mutationFn: addNewCustomer,
   })
 }

@@ -11,11 +11,11 @@ type DeleteButtonProps = {
 }
 
 export const DeleteButton = ({ id }: DeleteButtonProps) => {
-  const { mutateAsync, isPending } = useDeleteCustomer(id)
+  const deleteCustomerMutation = useDeleteCustomer()
 
   const handleDeleteCustomer = async () => {
     try {
-      await mutateAsync()
+      await deleteCustomerMutation.mutateAsync({ id })
     } catch (err) {
       if (err instanceof Error) {
         toast.error(err.message)
@@ -25,12 +25,14 @@ export const DeleteButton = ({ id }: DeleteButtonProps) => {
 
   return (
     <Button
-      disabled={isPending}
+      disabled={deleteCustomerMutation.isPending}
       color="danger"
       onClick={handleDeleteCustomer}
       className="flex w-full items-center justify-center gap-1"
     >
-      {isPending && <Loader2 className="size-3.5 animate-spin" />}
+      {deleteCustomerMutation.isPending && (
+        <Loader2 className="size-3.5 animate-spin" />
+      )}
       Deletar
     </Button>
   )

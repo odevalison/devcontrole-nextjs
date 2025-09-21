@@ -2,17 +2,17 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { closeUserTicket } from '@/app/actions/close-user-ticket'
+import { openNewTicket } from '@/app/actions/open-new-ticket'
 
 import { getTicketsKey } from '../queries/use-get-tickets'
 
-export const closeTicketKey = ['close-ticket'] as const
+export const authOpenTicketKey = ['auth-open-ticket'] as const
 
-export const useCloseTicket = () => {
+export const useAuthOpenTicket = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationKey: closeTicketKey,
-    mutationFn: closeUserTicket,
+    mutationKey: authOpenTicketKey,
+    mutationFn: openNewTicket,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: getTicketsKey })
     },

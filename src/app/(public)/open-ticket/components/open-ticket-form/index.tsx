@@ -1,51 +1,33 @@
 'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
-import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import z from 'zod'
 
-import { openNewTicket } from '@/app/(public)/actions/open-new-ticket'
 import { Button } from '@/components/button'
 import { Input } from '@/components/input'
 import { Textarea } from '@/components/textarea'
-
-const openTicketFormSchema = z.object({
-  name: z.string().nonempty('O nome do chamado é obrigatório'),
-  description: z.string().nonempty('A descrição do chamado é obrigatória'),
-})
-
-type OpenTicketFormData = z.infer<typeof openTicketFormSchema>
+import { useOpenTicket } from '@/hooks/mutations/use-open-ticket'
+import {
+  OpenTicketFormData,
+  useOpenTicketForm,
+} from '@/hooks/use-open-ticket-form'
 
 type OpenTicketFormProps = {
   customerId: string
 }
 
 export const OpenTicketForm = ({ customerId }: OpenTicketFormProps) => {
-  const queryClient = useQueryClient()
-  const openNewTicketMutation = useMutation({
-    mutationKey: ['open-new-ticket'],
-    mutationFn: openNewTicket,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['customers-tickets'] })
-    },
-  })
-
+  const openTicketMutation = useOpenTicket()
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
-  } = useForm<OpenTicketFormData>({
-    resolver: zodResolver(openTicketFormSchema),
-    defaultValues: { name: '', description: '' },
-  })
+    formState: { errors },
+  } = useOpenTicketForm()
 
   const handleOpenTicket = async (data: OpenTicketFormData) => {
     try {
-      await openNewTicketMutation.mutateAsync({ ...data, customerId })
+      await openTicketMutation.mutateAsync({ ...data, customerId })
       toast.success('Chamado aberto com sucesso!')
     } catch (err) {
       if (err instanceof Error) {
@@ -75,10 +57,12 @@ export const OpenTicketForm = ({ customerId }: OpenTicketFormProps) => {
       />
       <Button
         type="submit"
-        disabled={isSubmitting}
+        disabled={openTicketMutation.isPending}
         className="flex items-center justify-center gap-2"
       >
-        {isSubmitting && <Loader2 className="size-4 animate-spin" />}
+        {openTicketMutation.isPending && (
+          <Loader2 className="size-4 animate-spin" />
+        )}
         Abrir chamado
       </Button>
     </form>

@@ -1,6 +1,5 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
 import { getServerSession } from 'next-auth'
 
 import { authOptions } from '@/lib/auth'
@@ -22,7 +21,6 @@ export const openNewTicket = async (data: OpenNewTicketSchemaData) => {
         status: 'OPEN',
       },
     })
-    revalidatePath('/dashboard')
   } catch (err) {
     if (err instanceof Error) {
       throw new Error(err.message)

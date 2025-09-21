@@ -26,7 +26,6 @@ export type NewCustomerFormData = z.infer<typeof newCustomerFormSchema>
 export const useCustomerForm = () => {
   return useForm<NewCustomerFormData>({
     resolver: zodResolver(newCustomerFormSchema),
-    mode: 'onSubmit',
     defaultValues: { email: '', name: '', phone: '', address: '' },
   })
 }
