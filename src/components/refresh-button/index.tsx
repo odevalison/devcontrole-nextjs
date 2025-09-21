@@ -14,9 +14,7 @@ export const RefreshButton = () => {
 
   const handleRefreshPage = () => {
     button.current?.children[0].classList.add('animate-[1s_spin_100ms]')
-    queryClient.invalidateQueries({
-      queryKey: ['customers-tickets'],
-    })
+    queryClient.invalidateQueries({ type: 'all' })
     refresh()
   }
 

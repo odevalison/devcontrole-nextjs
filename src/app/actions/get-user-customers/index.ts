@@ -13,6 +13,7 @@ export const getUserCustomers = async () => {
   }
   const userCustomers = await prismaClient.customer.findMany({
     where: { userId: session.user.id },
+    orderBy: { created_at: 'desc' },
   })
   const userDontHaveCustomers = !userCustomers.length
   if (userDontHaveCustomers) {

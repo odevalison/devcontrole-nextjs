@@ -1,6 +1,5 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
 import { getServerSession } from 'next-auth'
 
 import { authOptions } from '@/lib/auth'
@@ -31,5 +30,4 @@ export const deleteUserCustomer = async (data: DeleteUserCustomerData) => {
     where: { id: customerToDelete.id, userId: session.user.id },
     include: { tickets: true },
   })
-  revalidatePath('/dashboard/customers')
 }

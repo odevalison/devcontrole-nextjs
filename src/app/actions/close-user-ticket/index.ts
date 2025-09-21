@@ -1,6 +1,5 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
 import { getServerSession } from 'next-auth'
 
 import { authOptions } from '@/lib/auth'
@@ -26,7 +25,6 @@ export const closeUserTicket = async (data: CloseUserTicketData) => {
       where: { id: ticketToClose.id, customer: { userId: session.user.id } },
       include: { customer: false, user: false },
     })
-    revalidatePath('/dashboard')
   } catch (err) {
     if (err instanceof Error) {
       throw new Error(err.message)

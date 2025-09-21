@@ -1,9 +1,13 @@
-import { getUserCustomers } from '@/app/actions/get-user-customers'
+'use client'
+
+import { Loader2 } from 'lucide-react'
+
+import { useGetUserCustomers } from '@/hooks/queries/use-get-user-customers'
 
 import { CardCustomer } from '../card-customer'
 
-export const CustomersList = async () => {
-  const customers = await getUserCustomers()
+export const CustomersList = () => {
+  const { data: customers, isFetching } = useGetUserCustomers()
   const userHaveCustomers = !!customers?.length
 
   return (
@@ -14,9 +18,13 @@ export const CustomersList = async () => {
             <CardCustomer key={customer.id} customer={customer} />
           ))}
         </section>
+      ) : isFetching ? (
+        <p className="flex items-center gap-2 text-sm font-medium text-zinc-500">
+          <Loader2 className="size-4 animate-spin" /> Buscando clientes...
+        </p>
       ) : (
         <p className="text-sm font-medium text-zinc-500">
-          Você não possui nenhum cliente cadastrado.
+          Você não possui clientes cadastrados.
         </p>
       )}
     </>

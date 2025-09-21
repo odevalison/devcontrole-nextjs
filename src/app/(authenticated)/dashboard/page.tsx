@@ -5,7 +5,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 
 import { Button } from '../../../components/button'
-import { RefreshButton } from './components/refresh-button'
+import { RefreshButton } from '../../../components/refresh-button'
 import { TicketsTable } from './components/tickets-table'
 
 const DashboardPage = async () => {
