@@ -1,6 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -23,6 +24,15 @@ type OpenTicketFormProps = {
 }
 
 export const OpenTicketForm = ({ customerId }: OpenTicketFormProps) => {
+  const queryClient = useQueryClient()
+  const openNewTicketMutation = useMutation({
+    mutationKey: ['open-new-ticket'],
+    mutationFn: openNewTicket,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['customers-tickets'] })
+    },
+  })
+
   const {
     register,
     handleSubmit,
@@ -35,7 +45,7 @@ export const OpenTicketForm = ({ customerId }: OpenTicketFormProps) => {
 
   const handleOpenTicket = async (data: OpenTicketFormData) => {
     try {
-      await openNewTicket({ ...data, customerId })
+      await openNewTicketMutation.mutateAsync({ ...data, customerId })
       toast.success('Chamado aberto com sucesso!')
     } catch (err) {
       if (err instanceof Error) {

@@ -1,9 +1,17 @@
+'use client'
+
+import { useQuery } from '@tanstack/react-query'
+import { Loader2 } from 'lucide-react'
+
 import { getUserOpenTickets } from '@/app/actions/get-user-open-tickets'
 
 import { TicketItem } from '../ticket-item'
 
-export const TicketsTable = async () => {
-  const tickets = await getUserOpenTickets()
+export const TicketsTable = () => {
+  const { data: tickets, isFetching } = useQuery({
+    queryKey: ['customers-tickets'],
+    queryFn: getUserOpenTickets,
+  })
   const haveOpenTickets = !!tickets?.length
 
   return (
@@ -25,6 +33,11 @@ export const TicketsTable = async () => {
             ))}
           </tbody>
         </table>
+      ) : isFetching ? (
+        <p className="flex items-center gap-1 text-sm font-semibold text-zinc-500">
+          <Loader2 className="size-4 animate-spin" />
+          Carregando chamados...
+        </p>
       ) : (
         <p className="text-sm font-semibold text-zinc-500">
           Você não possui nenhum chamado em aberto.

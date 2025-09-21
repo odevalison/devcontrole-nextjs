@@ -15,7 +15,7 @@ export const closeUserTicket = async (data: CloseUserTicketData) => {
     throw new Error('Usuário não autenticado')
   }
   const ticketToClose = await prismaClient.ticket.findFirst({
-    where: { id: data.id, userId: session.user.id },
+    where: { id: data.id, customer: { userId: session.user.id } },
   })
   const ticketNotFound = !ticketToClose
   if (ticketNotFound) {
@@ -23,7 +23,7 @@ export const closeUserTicket = async (data: CloseUserTicketData) => {
   }
   try {
     await prismaClient.ticket.delete({
-      where: { id: ticketToClose.id, userId: session.user.id },
+      where: { id: ticketToClose.id, customer: { userId: session.user.id } },
       include: { customer: false, user: false },
     })
     revalidatePath('/dashboard')

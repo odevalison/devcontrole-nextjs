@@ -28,6 +28,7 @@ const button = tv({
 type ButtonVariants = VariantProps<typeof button>
 
 type ButtonProps = {
+  ref?: React.Ref<HTMLButtonElement>
   children: React.ReactNode
   className?: string
 } & ButtonHTMLAttributes<HTMLButtonElement> &
@@ -39,11 +40,13 @@ export const Button = ({
   color,
   size,
   className,
+  ref,
   ...props
 }: ButtonProps) => {
   return (
     <button
       {...props}
+      ref={ref}
       type={type}
       className={twMerge(button({ size, color }), className)}
     >
