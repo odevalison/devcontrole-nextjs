@@ -12,7 +12,7 @@ export const getUserOpenTickets = async () => {
     throw new Error('Usuário não autenticado')
   }
   const userOpenTickets = await prismaClient.ticket.findMany({
-    where: { userId: session.user.id, status: 'OPEN' },
+    where: { customer: { userId: session.user.id }, status: 'OPEN' },
     orderBy: { created_at: 'desc' },
     include: { customer: true },
   })
