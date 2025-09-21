@@ -1,6 +1,6 @@
 import { Container } from '@/components/container'
 
-import { OpenTicketForm } from './components/open-ticket-form'
+import { SearchCustomerForm } from './components/search-customer-form'
 
 const OpenTicketPage = () => {
   return (
@@ -8,7 +8,7 @@ const OpenTicketPage = () => {
       <div className="mx-auto flex w-2xl max-w-full flex-col gap-5">
         <h1 className="text-center text-2xl font-bold">Abrir chamado</h1>
 
-        <OpenTicketForm />
+        <SearchCustomerForm />
       </div>
     </Container>
   )
