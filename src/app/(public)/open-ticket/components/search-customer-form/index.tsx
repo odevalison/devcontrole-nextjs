@@ -1,13 +1,13 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Search, X } from 'lucide-react'
+import { Loader2, Search, X } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import z from 'zod'
 
-import { getCustomerByEmail } from '@/app/actions/get-customer-by-email'
+import { getCustomerByEmail } from '@/app/(public)/actions/get-customer-by-email'
 import { Button } from '@/components/button'
 import { Input } from '@/components/input'
 
@@ -33,10 +33,10 @@ export const SearchCustomerForm = () => {
   const {
     register,
     handleSubmit,
-    setValue,
+    resetField,
     setError,
     setFocus,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<SearchCustomerFormData>({
     resolver: zodResolver(SearchCustomerFormSchema),
     defaultValues: { email: '' },
@@ -49,7 +49,7 @@ export const SearchCustomerForm = () => {
     } catch (err) {
       if (err instanceof Error) {
         setError('email', { type: 'custom', message: err.message })
-        setValue('email', '')
+        resetField('email', { keepError: true })
         setFocus('email')
         toast.error(err.message)
       }
@@ -58,7 +58,7 @@ export const SearchCustomerForm = () => {
 
   const handleClearCustomerSelected = () => {
     setCustomerSelected(null)
-    setValue('email', '')
+    resetField('email')
   }
 
   return (
@@ -79,7 +79,7 @@ export const SearchCustomerForm = () => {
             </Button>
           </div>
 
-          <OpenTicketForm />
+          <OpenTicketForm customerId={customerSelected.id} />
         </>
       ) : (
         <form
@@ -93,9 +93,15 @@ export const SearchCustomerForm = () => {
           />
           <Button
             type="submit"
+            disabled={isSubmitting}
             className="flex items-center justify-center gap-2"
           >
-            <Search className="size-4" /> Buscar cliente
+            {isSubmitting ? (
+              <Loader2 className="size-4 animate-spin" />
+            ) : (
+              <Search className="size-4" />
+            )}
+            Buscar cliente
           </Button>
         </form>
       )}
