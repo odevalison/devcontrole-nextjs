@@ -1,34 +1,27 @@
 'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2, Search, X } from 'lucide-react'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import z from 'zod'
 
 import { getCustomerByEmail } from '@/app/(public)/actions/get-customer-by-email'
 import { Button } from '@/components/button'
 import { Input } from '@/components/input'
+import {
+  SearchCustomerFormData,
+  useSearchCustomerForm,
+} from '@/hooks/use-search-customer-form'
 
 import { OpenTicketForm } from '../open-ticket-form'
-
-const SearchCustomerFormSchema = z.object({
-  email: z
-    .email('Digite um e-mail válido')
-    .nonempty('O e-mail do cliente é obrigatório'),
-})
-
-type SearchCustomerFormData = z.infer<typeof SearchCustomerFormSchema>
 
 type CustomerSelectedData = {
   id: string
   name: string
-}
+} | null
 
 export const SearchCustomerForm = () => {
   const [customerSelected, setCustomerSelected] =
-    useState<CustomerSelectedData | null>(null)
+    useState<CustomerSelectedData>(null)
 
   const {
     register,
@@ -37,10 +30,7 @@ export const SearchCustomerForm = () => {
     setError,
     setFocus,
     formState: { errors, isSubmitting },
-  } = useForm<SearchCustomerFormData>({
-    resolver: zodResolver(SearchCustomerFormSchema),
-    defaultValues: { email: '' },
-  })
+  } = useSearchCustomerForm()
 
   const handleSearchCustomer = async (data: SearchCustomerFormData) => {
     try {
